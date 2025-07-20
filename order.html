@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="내가올려 - 주문서 작성">
+    <title>주문서 작성 | 내가올려</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/img/favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/order.css">
+    
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="/assets/js/alpine-init.js"></script>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="nav-left">
+                    <a href="/" class="logo">
+                        <span class="logo-text">내가올려</span>
+                    </a>
+                </div>
+                <div class="nav-center">
+                    <div class="progress-indicator">
+                        <div class="progress-step completed">
+                            <span class="step-number">1</span>
+                            <span class="step-text">업종 선택</span>
+                        </div>
+                        <div class="progress-line completed"></div>
+                        <div class="progress-step completed">
+                            <span class="step-number">2</span>
+                            <span class="step-text">상품 선택</span>
+                        </div>
+                        <div class="progress-line active"></div>
+                        <div class="progress-step active">
+                            <span class="step-number">3</span>
+                            <span class="step-text">정보 입력</span>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step">
+                            <span class="step-number">4</span>
+                            <span class="step-text">결제</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <button class="btn btn-link" onclick="window.open('http://pf.kakao.com/_내가올려/chat', '_blank')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 1.821.487 3.53 1.338 5L2 22l5-1.338A9.964 9.964 0 0012 22z"/>
+                        </svg>
+                        <span>상담하기</span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="main-content" x-data="orderForm()">
+        <div class="container">
+            <div class="content-grid">
+                <!-- 왼쪽: 주문 폼 -->
+                <div class="main-column">
+                    <div class="page-header">
+                        <h1 class="page-title">주문서 작성</h1>
+                        <p class="page-desc">고객님의 정보를 정확히 입력해주세요</p>
+                    </div>
+                    
+                    <form @submit.prevent="submitOrder">
+                        <!-- 기본 정보 -->
+                        <div class="form-section">
+                            <h3 class="section-title">
+                                <span class="section-number">1</span>
+                                기본 정보
+                            </h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">상호명 <span class="required">*</span></label>
+                                    <input type="text" class="form-input" x-model="formData.businessName" 
+                                           placeholder="정확한 상호명을 입력하세요" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">업종</label>
+                                    <input type="text" class="form-input" 
+                                           :value="getBusinessTypeName()" readonly disabled>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">대표자명 <span class="required">*</span></label>
+                                    <input type="text" class="form-input" x-model="formData.ownerName" 
+                                           placeholder="대표자명" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">사업자등록번호</label>
+                                    <input type="text" class="form-input" x-model="formData.businessNumber" 
+                                           placeholder="000-00-00000" maxlength="12"
+                                           @input="formatBusinessNumber($event)">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 연락처 정보 -->
+                        <div class="form-section">
+                            <h3 class="section-title">
+                                <span class="section-number">2</span>
+                                연락처 정보
+                            </h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">휴대폰 번호 <span class="required">*</span></label>
+                                    <input type="tel" class="form-input" x-model="formData.phone" 
+                                           placeholder="010-0000-0000" required
+                                           @input="formatPhoneNumber($event)">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">이메일</label>
+                                    <input type="email" class="form-input" x-model="formData.email" 
+                                           placeholder="example@email.com">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 사업장 정보 -->
+                        <div class="form-section">
+                            <h3 class="section-title">
+                                <span class="section-number">3</span>
+                                사업장 정보
+                            </h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label">사업장 주소 <span class="required">*</span></label>
+                                <div class="address-input-group">
+                                    <input type="text" class="form-input" x-model="formData.postalCode" 
+                                           placeholder="우편번호" readonly>
+                                    <button type="button" class="btn btn-secondary" @click="searchAddress()">
+                                        주소 검색
+                                    </button>
+                                </div>
+                                <input type="text" class="form-input" x-model="formData.address" 
+                                       placeholder="기본 주소" readonly style="margin-top: 0.5rem;">
+                                <input type="text" class="form-input" x-model="formData.addressDetail" 
+                                       placeholder="상세 주소 입력" style="margin-top: 0.5rem;">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">홈페이지/SNS URL</label>
+                                <input type="url" class="form-input" x-model="formData.websiteUrl" 
+                                       placeholder="https://example.com">
+                            </div>
+                        </div>
+                        
+                        <!-- 마케팅 정보 -->
+                        <div class="form-section">
+                            <h3 class="section-title">
+                                <span class="section-number">4</span>
+                                마케팅 정보
+                            </h3>
+                            
+                            <div class="form-group">
+                                <label class="form-label">타겟 키워드</label>
+                                <div class="keyword-display">
+                                    <div class="keyword-tags">
+                                        <span class="keyword-tag" x-text="orderData.mainKeyword || '메인 키워드 미설정'"></span>
+                                        <template x-for="keyword in orderData.subKeywords || []" :key="keyword">
+                                            <span class="keyword-tag small" x-text="keyword"></span>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">추가 요청사항</label>
+                                <textarea class="form-textarea" x-model="formData.additionalRequest" 
+                                          rows="4" placeholder="특별히 요청하실 사항이 있으면 입력해주세요"></textarea>
+                            </div>
+                        </div>
+                        
+                        <!-- 약관 동의 -->
+                        <div class="form-section">
+                            <h3 class="section-title">
+                                <span class="section-number">5</span>
+                                약관 동의
+                            </h3>
+                            
+                            <div class="agreement-group">
+                                <label class="checkbox-label all-agree">
+                                    <input type="checkbox" x-model="agreements.all" @change="toggleAllAgreements()">
+                                    <span class="checkbox-text">전체 동의</span>
+                                </label>
+                                
+                                <div class="agreement-items">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" x-model="agreements.terms" required>
+                                        <span class="checkbox-text">이용약관 동의 <span class="required">(필수)</span></span>
+                                        <a href="/terms.html" target="_blank" class="agreement-link">보기</a>
+                                    </label>
+                                    
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" x-model="agreements.privacy" required>
+                                        <span class="checkbox-text">개인정보 수집 및 이용 동의 <span class="required">(필수)</span></span>
+                                        <a href="/privacy.html" target="_blank" class="agreement-link">보기</a>
+                                    </label>
+                                    
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" x-model="agreements.marketing">
+                                        <span class="checkbox-text">마케팅 정보 수신 동의 <span class="optional">(선택)</span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 제출 버튼 -->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="history.back()">
+                                이전으로
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-lg" 
+                                    :disabled="!canSubmit()">
+                                결제 진행하기
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- 오른쪽: 주문 요약 -->
+                <aside class="sidebar sticky-sidebar">
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">주문 요약</h3>
+                        
+                        <div class="sidebar-content">
+                            <!-- 선택한 상품 -->
+                            <div class="summary-section" x-show="orderData.products && orderData.products.length > 0">
+                                <h4 class="summary-subtitle">선택한 상품</h4>
+                                <div class="product-list">
+                                    <template x-for="product in orderData.products || []">
+                                        <div class="product-item">
+                                            <span class="product-name" x-text="product.name"></span>
+                                            <span class="product-price" x-text="formatPrice(product.price)"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            
+                            <!-- 추가 옵션 -->
+                            <div class="summary-section" x-show="orderData.options && orderData.options.length > 0">
+                                <h4 class="summary-subtitle">추가 옵션</h4>
+                                <div class="product-list">
+                                    <template x-for="option in orderData.options || []">
+                                        <div class="product-item">
+                                            <span class="product-name" x-text="option.name"></span>
+                                            <span class="product-price" x-text="formatPrice(option.price)"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            
+                            <!-- 바이럴 패키지 -->
+                            <div class="summary-section" x-show="orderData.viralPackages && orderData.viralPackages.length > 0">
+                                <h4 class="summary-subtitle">바이럴 패키지</h4>
+                                <div class="product-list">
+                                    <template x-for="pkg in orderData.viralPackages || []">
+                                        <div class="product-item">
+                                            <span class="product-name" x-text="pkg.name"></span>
+                                            <span class="product-price" x-text="formatPrice(pkg.price)"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            
+                            <!-- 선택한 플랫폼 -->
+                            <div class="summary-section" x-show="orderData.platforms && orderData.platforms.length > 0">
+                                <h4 class="summary-subtitle">마케팅 채널</h4>
+                                <div class="platform-tags">
+                                    <template x-for="platform in orderData.platforms || []">
+                                        <span class="platform-tag" x-text="getPlatformName(platform)"></span>
+                                    </template>
+                                </div>
+                            </div>
+                            
+                            <!-- 총 금액 -->
+                            <div class="summary-total">
+                                <span class="total-label">총 결제 금액</span>
+                                <span class="total-amount" x-text="formatPrice(orderData.totalPrice || 0)"></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 도움이 필요하신가요? -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">도움이 필요하신가요?</h3>
+                        <div class="help-content">
+                            <p class="help-text">주문 과정에서 어려움이 있으시면 언제든 문의해주세요.</p>
+                            <button class="btn btn-primary btn-block" @click="openKakaoChat()">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 3c5.514 0 10 3.592 10 8.007 0 4.917-5.144 7.961-9.91 7.961-1.937 0-3.384-.397-4.394-.644-1 .613-1.594 1.037-4.272 1.82.535-1.373.722-2.748.601-4.265-.837-1.284-1.24-2.7-1.24-4.872C2.785 6.592 6.486 3 12 3z"/>
+                                </svg>
+                                카카오톡 상담
+                            </button>
+                            <div class="contact-info">
+                                <p><strong>고객센터</strong></p>
+                                <p>평일 09:00 - 18:00</p>
+                                <p>주말/공휴일 휴무</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 안내 사항 -->
+                    <div class="sidebar-card">
+                        <h3 class="sidebar-title">안내 사항</h3>
+                        <ul class="info-list">
+                            <li>모든 금액은 VAT 포함가입니다</li>
+                            <li>결제 완료 후 24시간 내 서비스가 시작됩니다</li>
+                            <li>세금계산서 발행이 가능합니다</li>
+                            <li>계약 기간은 최소 1개월입니다</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- 푸터 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-brand">
+                        <span class="footer-logo">내가올려</span>
+                        <p class="footer-desc">지역 비즈니스 마케팅의 새로운 기준</p>
+                    </div>
+                    <div class="footer-contact">
+                        <p><strong>고객센터</strong></p>
+                        <p>평일 09:00 - 18:00</p>
+                        <p>카카오톡: @내가올려</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 내가올려. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 다음 우편번호 서비스 -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    
+    <!-- JavaScript -->
+    <script src="/assets/js/order.js"></script>
+</body>
+</html>

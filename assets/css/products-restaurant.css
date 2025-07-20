@@ -1,0 +1,303 @@
+/* 맛집업종 타당 가격제 전용 스타일 */
+
+.traffic-calculator {
+    background: white;
+    padding: var(--spacing-xl);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: var(--spacing-xl);
+}
+
+.traffic-calculator h3 {
+    margin-bottom: var(--spacing-lg);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.keyword-guide {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+    align-items: center;
+}
+
+.link-guide {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.link-guide:hover {
+    text-decoration: underline;
+}
+
+/* 타당 가격제 상품 카드 */
+.per-click-products {
+    margin-bottom: var(--spacing-xl);
+}
+
+.per-click-products h3 {
+    margin-bottom: var(--spacing-lg);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.restaurant-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.restaurant-grid .product-card {
+    border: 2px solid var(--border);
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.restaurant-grid .product-card.selected {
+    border-color: var(--primary);
+    background: rgba(254, 229, 0, 0.05);
+}
+
+.restaurant-grid .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-light);
+}
+
+.restaurant-grid .card-header h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.price-per-click {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.card-body {
+    padding: var(--spacing-md);
+}
+
+.quantity-selector {
+    margin-bottom: var(--spacing-md);
+}
+
+.quantity-selector label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 500;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.quantity-controls button {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-base);
+}
+
+.quantity-controls button:hover:not(:disabled) {
+    background: var(--bg-light);
+    border-color: var(--primary);
+}
+
+.quantity-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quantity-controls input {
+    width: 80px;
+    text-align: center;
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-size: 16px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.quantity-controls input:disabled {
+    background: var(--bg-light);
+    opacity: 0.7;
+}
+
+.price-display {
+    padding: var(--spacing-md);
+    background: var(--bg-light);
+    border-radius: var(--radius);
+    margin-bottom: var(--spacing-md);
+}
+
+.price-display .label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.price-display .price {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+/* 노하우 가이드 */
+.know-how-guide {
+    background: rgba(254, 229, 0, 0.1);
+    border: 1px solid var(--primary);
+    border-radius: var(--radius);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+}
+
+.know-how-guide h4 {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.know-how-guide ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.know-how-guide li {
+    padding-left: 24px;
+    position: relative;
+    margin-bottom: var(--spacing-sm);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.know-how-guide li:before {
+    content: "•";
+    position: absolute;
+    left: 8px;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* 추가 옵션 */
+.additional-options {
+    background: white;
+    padding: var(--spacing-xl);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: var(--spacing-xl);
+}
+
+.additional-options h3 {
+    margin-bottom: var(--spacing-lg);
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.option-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all var(--transition-base);
+}
+
+.option-item:hover {
+    border-color: var(--primary);
+    background: var(--bg-light);
+}
+
+.option-info h5 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.option-info p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.option-price {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex-shrink: 0;
+}
+
+.option-price .price {
+    font-weight: 600;
+    white-space: nowrap;
+    font-size: 16px;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .restaurant-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .keyword-guide {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .keyword-guide .btn {
+        width: 100%;
+    }
+    
+    .option-item {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-md);
+    }
+    
+    .option-price {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .know-how-guide {
+        padding: var(--spacing-md);
+    }
+    
+    .know-how-guide li {
+        font-size: 13px;
+    }
+}

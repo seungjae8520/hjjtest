@@ -1,0 +1,790 @@
+/* 
+ * 내가올려.kr - 상품 선택 페이지 스타일 (PRD 기반 재설계)
+ * 작성일: 2025-01-20
+ * 디자인: 플랫 미니멀 + 카카오 컬러 팔레트
+ */
+
+/* ===================================
+   변수 정의 - 카카오 컬러 팔레트
+   =================================== */
+:root {
+    /* 카카오 브랜드 컬러 */
+    --kakao-yellow: #FEE500;
+    --kakao-yellow-light: #FFF7D9;
+    --kakao-yellow-dark: #F7D800;
+    --kakao-brown: #3C1E1E;
+    --kakao-black: #000000;
+    --kakao-white: #FFFFFF;
+    
+    /* 그레이 스케일 */
+    --gray-50: #FAFAFA;
+    --gray-100: #F5F5F5;
+    --gray-200: #EEEEEE;
+    --gray-300: #E0E0E0;
+    --gray-400: #BDBDBD;
+    --gray-500: #9E9E9E;
+    --gray-600: #757575;
+    --gray-700: #616161;
+    --gray-800: #424242;
+    --gray-900: #212121;
+    
+    /* 상태 색상 */
+    --success: #4CAF50;
+    --error: #F44336;
+    --info: #2196F3;
+    
+    /* 그림자 (플랫 디자인용 최소한의 그림자) */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.12);
+    
+    /* 간격 시스템 */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 3rem;
+    
+    /* 반경 */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+}
+
+/* ===================================
+   전역 스타일
+   =================================== */
+body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--gray-50);
+    color: var(--kakao-black);
+}
+
+/* ===================================
+   레이아웃 컨테이너
+   =================================== */
+.container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+}
+
+/* ===================================
+   헤더 (플랫 디자인)
+   =================================== */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--kakao-white);
+    border-bottom: 1px solid var(--gray-200);
+    z-index: 1000;
+    height: 64px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    height: 64px;
+    gap: var(--spacing-2xl);
+}
+
+.nav__logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--kakao-black);
+    text-decoration: none;
+}
+
+.nav__menu {
+    display: flex;
+    gap: var(--spacing-xl);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+}
+
+.nav__menu a {
+    color: var(--gray-700);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    padding: var(--spacing-sm) 0;
+    transition: color 150ms ease;
+}
+
+.nav__menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--kakao-yellow);
+    transform: scaleX(0);
+    transition: transform 150ms ease;
+}
+
+.nav__menu a:hover,
+.nav__menu a.active {
+    color: var(--kakao-black);
+}
+
+.nav__menu a.active::after {
+    transform: scaleX(1);
+}
+
+.nav__actions {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+/* ===================================
+   메인 레이아웃 (65% / 35% 분할)
+   =================================== */
+.main-content {
+    padding-top: 80px;
+    min-height: 100vh;
+}
+
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 65% 35%;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl) 0;
+}
+
+.main-panel {
+    background: var(--kakao-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+/* ===================================
+   진행 단계 표시 (플랫 디자인)
+   =================================== */
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-lg) var(--spacing-xl);
+    background: var(--gray-100);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.progress-step {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gray-300);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    position: relative;
+    z-index: 2;
+}
+
+.progress-step.active .step-circle {
+    background: var(--kakao-yellow);
+    color: var(--kakao-black);
+}
+
+.progress-step.completed .step-circle {
+    background: var(--kakao-black);
+    color: var(--kakao-white);
+}
+
+.step-label {
+    margin-left: var(--spacing-sm);
+    font-weight: 500;
+    color: var(--gray-600);
+}
+
+.progress-step.active .step-label {
+    color: var(--kakao-black);
+}
+
+.step-connector {
+    flex: 1;
+    height: 2px;
+    background: var(--gray-300);
+    margin: 0 var(--spacing-md);
+}
+
+.progress-step.completed + .progress-step .step-connector {
+    background: var(--kakao-black);
+}
+
+/* ===================================
+   섹션 스타일
+   =================================== */
+.section-container {
+    padding: var(--spacing-2xl);
+}
+
+.section-header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--kakao-black);
+    margin-bottom: var(--spacing-sm);
+}
+
+.section-subtitle {
+    color: var(--gray-600);
+    font-size: 1rem;
+}
+
+/* ===================================
+   플랫폼 카드 그리드
+   =================================== */
+.platform-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.platform-card {
+    background: var(--kakao-white);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    cursor: pointer;
+    transition: all 150ms ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.platform-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--kakao-yellow);
+    transform: translateY(100%);
+    transition: transform 150ms ease;
+    z-index: 0;
+}
+
+.platform-card:hover {
+    border-color: var(--kakao-yellow);
+    transform: translateY(-2px);
+}
+
+.platform-card.selected {
+    border-color: var(--kakao-yellow);
+}
+
+.platform-card.selected::before {
+    transform: translateY(0);
+}
+
+.platform-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto var(--spacing-md);
+    position: relative;
+    z-index: 1;
+}
+
+.platform-icon img,
+.platform-icon svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.platform-card.selected .platform-icon {
+    filter: brightness(0);
+}
+
+.platform-name {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--kakao-black);
+    position: relative;
+    z-index: 1;
+}
+
+.platform-card.selected .platform-name {
+    color: var(--kakao-black);
+}
+
+/* 플랫폼별 브랜드 컬러 */
+.platform-card[data-platform="naver"] {
+    --brand-color: #03C75A;
+}
+
+.platform-card[data-platform="instagram"] {
+    --brand-color: #E4405F;
+}
+
+.platform-card[data-platform="youtube"] {
+    --brand-color: #FF0000;
+}
+
+.platform-card[data-platform="blog"] {
+    --brand-color: #1E90FF;
+}
+
+/* ===================================
+   키워드 입력 영역
+   =================================== */
+.keyword-section {
+    background: var(--gray-50);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.keyword-input-group {
+    margin-bottom: var(--spacing-lg);
+}
+
+.input-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+    color: var(--kakao-black);
+}
+
+.input-field {
+    width: 100%;
+    padding: var(--spacing-md);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    transition: all 150ms ease;
+    background: var(--kakao-white);
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--kakao-yellow);
+    background: var(--kakao-yellow-light);
+}
+
+.keyword-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.keyword-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: var(--kakao-yellow);
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.keyword-tag button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.125rem;
+    line-height: 1;
+    opacity: 0.6;
+    transition: opacity 150ms ease;
+}
+
+.keyword-tag button:hover {
+    opacity: 1;
+}
+
+/* ===================================
+   상품 선택 카드
+   =================================== */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.product-card {
+    background: var(--kakao-white);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xl);
+    position: relative;
+    transition: all 150ms ease;
+}
+
+.product-card:hover {
+    border-color: var(--kakao-yellow);
+    transform: translateY(-2px);
+}
+
+.product-card.selected {
+    border-color: var(--kakao-yellow);
+    background: var(--kakao-yellow-light);
+}
+
+.product-card.featured {
+    border-color: var(--kakao-yellow);
+}
+
+.product-badge {
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    padding: var(--spacing-xs) var(--spacing-md);
+    background: var(--kakao-yellow);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.product-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--kakao-black);
+    margin-bottom: var(--spacing-lg);
+}
+
+.product-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-lg) 0;
+}
+
+.product-features li {
+    padding: var(--spacing-sm) 0;
+    padding-left: var(--spacing-lg);
+    position: relative;
+    color: var(--gray-700);
+}
+
+.product-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--kakao-yellow);
+    font-weight: 700;
+}
+
+/* ===================================
+   정보 패널 카드
+   =================================== */
+.info-card {
+    background: var(--kakao-white);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.info-card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+}
+
+/* 선택 요약 카드 */
+.summary-card {
+    background: var(--kakao-yellow-light);
+    border: 2px solid var(--kakao-yellow);
+}
+
+.summary-item {
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--kakao-yellow);
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    margin-bottom: var(--spacing-xs);
+}
+
+.summary-value {
+    font-weight: 600;
+}
+
+.summary-total {
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg);
+    border-top: 2px solid var(--kakao-yellow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-label {
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.total-amount {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--kakao-black);
+}
+
+/* ===================================
+   버튼 스타일 (플랫 디자인)
+   =================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    transition: all 150ms ease;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: var(--kakao-yellow);
+    color: var(--kakao-black);
+}
+
+.btn-primary:hover {
+    background: var(--kakao-yellow-dark);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--kakao-white);
+    color: var(--kakao-black);
+    border: 2px solid var(--gray-300);
+}
+
+.btn-secondary:hover {
+    border-color: var(--kakao-yellow);
+    background: var(--kakao-yellow-light);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--kakao-black);
+    border: 2px solid transparent;
+}
+
+.btn-ghost:hover {
+    background: var(--gray-100);
+}
+
+.btn-sm {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.875rem;
+}
+
+.btn-lg {
+    padding: var(--spacing-lg) var(--spacing-2xl);
+    font-size: 1.125rem;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ===================================
+   플로팅 요소
+   =================================== */
+.floating-kakao {
+    position: fixed;
+    bottom: var(--spacing-xl);
+    right: var(--spacing-xl);
+    width: 56px;
+    height: 56px;
+    background: var(--kakao-yellow);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    transition: all 150ms ease;
+    border: none;
+}
+
+.floating-kakao:hover {
+    transform: scale(1.1);
+    background: var(--kakao-yellow-dark);
+}
+
+/* ===================================
+   모달 스타일
+   =================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: var(--spacing-xl);
+}
+
+.modal-content {
+    background: var(--kakao-white);
+    border-radius: var(--radius-lg);
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: var(--spacing-xl);
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray-600);
+    transition: color 150ms ease;
+}
+
+.modal-close:hover {
+    color: var(--kakao-black);
+}
+
+.modal-body {
+    padding: var(--spacing-xl);
+}
+
+/* ===================================
+   반응형 디자인
+   =================================== */
+@media (max-width: 1024px) {
+    .content-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .nav__menu {
+        display: none;
+    }
+    
+    .platform-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-panel {
+        grid-template-columns: 1fr;
+    }
+    
+    .floating-kakao {
+        bottom: var(--spacing-md);
+        right: var(--spacing-md);
+    }
+}
+
+/* ===================================
+   애니메이션
+   =================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 300ms ease forwards;
+}
+
+/* ===================================
+   유틸리티 클래스
+   =================================== */
+.text-center {
+    text-align: center;
+}
+
+.mb-1 { margin-bottom: var(--spacing-sm); }
+.mb-2 { margin-bottom: var(--spacing-md); }
+.mb-3 { margin-bottom: var(--spacing-lg); }
+.mb-4 { margin-bottom: var(--spacing-xl); }
+
+.mt-1 { margin-top: var(--spacing-sm); }
+.mt-2 { margin-top: var(--spacing-md); }
+.mt-3 { margin-top: var(--spacing-lg); }
+.mt-4 { margin-top: var(--spacing-xl); }
+
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}

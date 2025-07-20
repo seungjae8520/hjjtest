@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="내가올려 - 이제 광고회사보다 내가 낫다. DIY 마케팅 코칭툴로 직접 실행하는 마케팅">
+    <title>내가올려 - DIY 마케팅 플랫폼</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="assets/js/alpine-init.js"></script>
+</head>
+<body x-data="mainApp()">
+    <!-- 고정 헤더 -->
+    <header class="fixed-header">
+        <div class="header-content">
+            <h1 class="logo" @click="location.reload()" style="cursor: pointer;">내가올려<span>.kr</span></h1>
+            <div class="header-right">
+                <nav class="header-nav">
+                    <a href="#services" class="nav-link">서비스 소개</a>
+                    <a href="#process" class="nav-link">진행 절차</a>
+                    <a href="#pricing" class="nav-link">가격 안내</a>
+                    <a href="#cases" class="nav-link">성공 사례</a>
+                </nav>
+                <div class="header-cta">
+                    <button class="btn-analysis" @click="showFreeAnalysisModal = true">무료 분석</button>
+                    <a href="products.html" class="btn-start">지금 시작하기</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨테이너 -->
+    <div class="main-container">
+        <!-- Hero 섹션 -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="hero-badge">DIY 마케팅 플랫폼</div>
+                <h1 class="hero-title">이제 광고회사보다<br><span class="highlight">내가 낫다</span></h1>
+                <p class="hero-subtitle">마케팅 코칭툴을 통해 직접 실행하는 스마트한 마케팅</p>
+                
+                <div class="hero-cta-grid">
+                    <div class="cta-card" @click="showFreeAnalysisModal = true">
+                        <div class="cta-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 11H7a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2v-6a2 2 0 00-2-2zm0 0V7a3 3 0 016 0v4m-6 0h6m0 0h2a2 2 0 012 2v6a2 2 0 01-2 2h-2a2 2 0 01-2-2v-6a2 2 0 012-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3>우선 무료 분석만</h3>
+                        <p>현재 마케팅 상태를 무료로 진단받아보세요</p>
+                        <span class="cta-arrow">→</span>
+                    </div>
+                    
+                    <div class="cta-card" @click="window.location.href='products.html'">
+                        <div class="cta-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3>내 손으로 순위도전</h3>
+                        <p>DIY 마케팅 툴로 직접 순위를 올려보세요</p>
+                        <span class="cta-arrow">→</span>
+                    </div>
+                    
+                    <div class="cta-card" @click="activeTab = 'cases'; document.getElementById('cases').scrollIntoView({behavior: 'smooth'})">
+                        <div class="cta-icon">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3>실제 사례 보기</h3>
+                        <p>성공한 사업자들의 생생한 후기를 확인하세요</p>
+                        <span class="cta-arrow">→</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <div class="content-wrapper">
+            <!-- 좌측: 메인 콘텐츠 -->
+            <div class="main-content">
+                <!-- 서비스 소개 -->
+                <section id="services" class="content-section">
+                    <h2 class="section-title">
+                        <span class="section-number">1</span>
+                        어떤 서비스인가요?
+                    </h2>
+                    
+                    <div class="service-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                </svg>
+                            </div>
+                            <h4>플레이스 순위 상승</h4>
+                            <p>네이버 플레이스, 구글 지도 등 지역 검색 순위를 효과적으로 상승시킵니다</p>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                                </svg>
+                            </div>
+                            <h4>리뷰 & 블로그 확산</h4>
+                            <p>진정성 있는 리뷰와 블로그 포스팅으로 신뢰도를 높입니다</p>
+                        </div>
+                        
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <h4>트래픽 극대화</h4>
+                            <p>타겟 고객의 실제 방문과 전환을 이끌어내는 트래픽을 생성합니다</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 진행 절차 -->
+                <section id="process" class="content-section">
+                    <h2 class="section-title">
+                        <span class="section-number">2</span>
+                        어떻게 진행되나요?
+                    </h2>
+                    
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">STEP 1</div>
+                            <h4>업종 선택</h4>
+                            <p>일반업종 또는 맛집업종 선택</p>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="step-number">STEP 2</div>
+                            <h4>플랫폼 설정</h4>
+                            <p>네이버, 인스타, 유튜브 등</p>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="step-number">STEP 3</div>
+                            <h4>상품 선택</h4>
+                            <p>예산과 목표에 맞는 패키지</p>
+                        </div>
+                        <div class="process-arrow">→</div>
+                        <div class="process-step">
+                            <div class="step-number">STEP 4</div>
+                            <h4>실행 & 리포트</h4>
+                            <p>실시간 진행상황 확인</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 가격 안내 -->
+                <section id="pricing" class="content-section">
+                    <h2 class="section-title">
+                        <span class="section-number">3</span>
+                        가격은 어떻게 되나요?
+                    </h2>
+                    
+                    <div class="pricing-tabs">
+                        <button class="tab-button" :class="{'active': activeTab === 'general'}" @click="activeTab = 'general'">일반업종</button>
+                        <button class="tab-button" :class="{'active': activeTab === 'restaurant'}" @click="activeTab = 'restaurant'">맛집업종</button>
+                    </div>
+                    
+                    <div class="pricing-content" x-show="activeTab === 'general'" x-transition>
+                        <div class="pricing-grid">
+                            <div class="pricing-card">
+                                <h3>반영테스트</h3>
+                                <div class="price">₩80,000</div>
+                                <div class="period">10일 패키지</div>
+                                <ul class="features">
+                                    <li>기본 트래픽 테스트</li>
+                                    <li>키워드 반영 확인</li>
+                                    <li>기초 리포트 제공</li>
+                                </ul>
+                                <button class="btn-select" @click="window.location.href='products.html'">선택하기</button>
+                            </div>
+                            
+                            <div class="pricing-card featured">
+                                <div class="badge">인기</div>
+                                <h3>본격적 순위 상승</h3>
+                                <div class="price">₩180,000</div>
+                                <div class="period">10일 패키지</div>
+                                <ul class="features">
+                                    <li>집중 트래픽 투입</li>
+                                    <li>리뷰 & 블로그 포함</li>
+                                    <li>상세 분석 리포트</li>
+                                    <li>A/B 테스트 진행</li>
+                                </ul>
+                                <button class="btn-select primary" @click="window.location.href='products.html'">선택하기</button>
+                            </div>
+                            
+                            <div class="pricing-card">
+                                <h3>경쟁구간</h3>
+                                <div class="price">₩250,000</div>
+                                <div class="period">10일 패키지</div>
+                                <ul class="features">
+                                    <li>고경쟁 키워드 대응</li>
+                                    <li>멀티 플랫폼 확산</li>
+                                    <li>전담 매니저 배정</li>
+                                    <li>맞춤형 전략 수립</li>
+                                </ul>
+                                <button class="btn-select" @click="window.location.href='products.html'">선택하기</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pricing-content" x-show="activeTab === 'restaurant'" x-transition>
+                        <div class="restaurant-pricing">
+                            <div class="pricing-info">
+                                <h3>맛집 특화 패키지</h3>
+                                <p>트래픽 기반 과금 (₩65/클릭) 또는 월 정액제</p>
+                            </div>
+                            <div class="consultation-card">
+                                <h4>맛집은 상담이 필요해요!</h4>
+                                <p>업종별 특성과 상권 분석을 통해 최적의 마케팅 전략을 제안드립니다.</p>
+                                <button class="btn-consultation" @click="window.location.href='products.html?type=restaurant'">무료 상담 신청</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 성공 사례 -->
+                <section id="cases" class="content-section">
+                    <h2 class="section-title">
+                        <span class="section-number">4</span>
+                        실제 성공 사례
+                    </h2>
+                    
+                    <div class="cases-grid">
+                        <div class="case-card">
+                            <div class="case-header">
+                                <span class="business-type">카페</span>
+                                <span class="location">강남구</span>
+                            </div>
+                            <div class="case-content">
+                                <h4>"3개월 만에 매출 2배 증가"</h4>
+                                <p>플레이스 순위가 15위에서 3위로 상승하면서 실제 방문객이 크게 늘었습니다. 주말 대기시간이 생길 정도로 인기가 많아졌어요.</p>
+                            </div>
+                            <div class="case-stats">
+                                <div class="stat">
+                                    <span class="label">순위 상승</span>
+                                    <span class="value">15위 → 3위</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">리뷰 증가</span>
+                                    <span class="value">+127개</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="case-card">
+                            <div class="case-header">
+                                <span class="business-type">미용실</span>
+                                <span class="location">송파구</span>
+                            </div>
+                            <div class="case-content">
+                                <h4>"신규 고객 70% 증가"</h4>
+                                <p>인스타그램과 네이버 블로그를 통한 홍보로 20-30대 고객층이 크게 늘었습니다. 예약이 2주 전에 마감될 정도입니다.</p>
+                            </div>
+                            <div class="case-stats">
+                                <div class="stat">
+                                    <span class="label">월 방문자</span>
+                                    <span class="value">+2,840명</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">예약률</span>
+                                    <span class="value">85% 상승</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="case-card">
+                            <div class="case-header">
+                                <span class="business-type">음식점</span>
+                                <span class="location">마포구</span>
+                            </div>
+                            <div class="case-content">
+                                <h4>"브레이크타임 없애고 종일 영업"</h4>
+                                <p>점심 장사만 하던 식당이 저녁 손님까지 늘어나 종일 영업하게 되었습니다. 배달 주문도 3배 이상 증가했어요.</p>
+                            </div>
+                            <div class="case-stats">
+                                <div class="stat">
+                                    <span class="label">일 매출</span>
+                                    <span class="value">180% 증가</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">재방문율</span>
+                                    <span class="value">45% 상승</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 우측: 정보 패널 -->
+            <div class="info-panel">
+                <!-- 공지사항 -->
+                <div class="notice-container">
+                    <h3 class="panel-title">📢 공지사항</h3>
+                    <div class="notice-list">
+                        <div class="notice-item">
+                            <span class="notice-date">2025.01.20</span>
+                            <p>신규 가입 고객 20% 할인 이벤트</p>
+                        </div>
+                        <div class="notice-item">
+                            <span class="notice-date">2025.01.15</span>
+                            <p>맛집 특화 패키지 출시</p>
+                        </div>
+                        <div class="notice-item">
+                            <span class="notice-date">2025.01.10</span>
+                            <p>실시간 리포트 기능 업데이트</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 빠른 상담 -->
+                <div class="quick-consult">
+                    <h3 class="panel-title">💬 빠른 상담</h3>
+                    <div class="consult-content">
+                        <p>궁금한 점이 있으신가요?<br>전문가가 친절히 상담해드립니다.</p>
+                        <button class="btn-kakao">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 3c5.514 0 10 3.476 10 7.747 0 4.272-4.48 7.748-9.986 7.748-.62 0-1.092-.046-1.759-.097-1 .776-1.774 1.403-3.485 1.962.26-1.383-.113-2.259-.514-3.259-2.383-1.5-4.256-3.411-4.256-6.354C2 6.476 6.487 3 12 3z"/>
+                            </svg>
+                            카카오톡 상담
+                        </button>
+                        <div class="consult-time">
+                            평일 09:00 - 18:00<br>
+                            주말/공휴일 휴무
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 이용 가이드 -->
+                <div class="guide-section">
+                    <h3 class="panel-title">📖 이용 가이드</h3>
+                    <div class="accordion" x-data="{ activeItem: null }">
+                        <div class="accordion-item">
+                            <button class="accordion-header" @click="activeItem = activeItem === 1 ? null : 1">
+                                <span>처음이신가요?</span>
+                                <span class="accordion-icon" :class="{'rotate': activeItem === 1}">▼</span>
+                            </button>
+                            <div class="accordion-content" x-show="activeItem === 1" x-collapse>
+                                <p>1. 무료 분석을 통해 현재 상태를 진단받으세요</p>
+                                <p>2. 업종과 예산에 맞는 상품을 선택하세요</p>
+                                <p>3. 실시간으로 진행상황을 확인하세요</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header" @click="activeItem = activeItem === 2 ? null : 2">
+                                <span>환불 정책</span>
+                                <span class="accordion-icon" :class="{'rotate': activeItem === 2}">▼</span>
+                            </button>
+                            <div class="accordion-content" x-show="activeItem === 2" x-collapse>
+                                <p>• 작업 시작 전: 100% 환불</p>
+                                <p>• 작업 진행 중: 50% 환불</p>
+                                <p>• 작업 완료 후: 환불 불가</p>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-header" @click="activeItem = activeItem === 3 ? null : 3">
+                                <span>자주 묻는 질문</span>
+                                <span class="accordion-icon" :class="{'rotate': activeItem === 3}">▼</span>
+                            </button>
+                            <div class="accordion-content" x-show="activeItem === 3" x-collapse>
+                                <p>Q. 효과는 언제부터 나타나나요?</p>
+                                <p>A. 보통 3-7일 내에 변화가 시작됩니다</p>
+                                <br>
+                                <p>Q. 직접 하기 어렵지 않나요?</p>
+                                <p>A. 코칭툴이 단계별로 안내해드립니다</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 무료 분석 모달 -->
+    <div class="modal-backdrop" x-show="showFreeAnalysisModal" x-transition.opacity @click="showFreeAnalysisModal = false">
+        <div class="modal-content" @click.stop>
+            <button class="modal-close" @click="showFreeAnalysisModal = false">×</button>
+            <h2 class="modal-title">무료 마케팅 분석 신청</h2>
+            <p class="modal-subtitle">현재 마케팅 상태를 무료로 진단해드립니다</p>
+            
+            <form @submit.prevent="submitFreeAnalysis">
+                <div class="form-group">
+                    <label>상호명 <span class="required">*</span></label>
+                    <input type="text" x-model="freeAnalysis.businessName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>대표자명 <span class="required">*</span></label>
+                    <input type="text" x-model="freeAnalysis.name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>연락처 <span class="required">*</span></label>
+                    <input type="tel" x-model="freeAnalysis.phone" placeholder="010-0000-0000" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>이메일</label>
+                    <input type="email" x-model="freeAnalysis.email" placeholder="example@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label>홈페이지/플레이스 URL</label>
+                    <input type="url" x-model="freeAnalysis.url" placeholder="https://...">
+                </div>
+                
+                <div class="form-group">
+                    <label>궁금한 점</label>
+                    <textarea x-model="freeAnalysis.message" rows="3" placeholder="분석받고 싶은 내용을 자유롭게 작성해주세요"></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" @click="showFreeAnalysisModal = false">취소</button>
+                    <button type="submit" class="btn-submit">무료 분석 신청</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 플로팅 버튼 -->
+    <button class="floating-kakao-btn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+            <path d="M12 3c5.514 0 10 3.476 10 7.747 0 4.272-4.48 7.748-9.986 7.748-.62 0-1.092-.046-1.759-.097-1 .776-1.774 1.403-3.485 1.962.26-1.383-.113-2.259-.514-3.259-2.383-1.5-4.256-3.411-4.256-6.354C2 6.476 6.487 3 12 3z"/>
+        </svg>
+        <span>실시간 상담</span>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

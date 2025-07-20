@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="내가올려 - 업종별 맞춤 마케팅 상품 선택">
+    <title>상품 선택 | 내가올려</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/products-new.css">
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body x-data="productApp()">
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="nav__logo">내가올려</a>
+                <ul class="nav__menu">
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="products.html" class="active">상품신청</a></li>
+                    <li><a href="#guide">이용가이드</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+                <div class="nav__actions">
+                    <button class="btn btn-ghost btn-sm">로그인</button>
+                    <button class="btn btn-primary btn-sm">무료 상담</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-wrapper">
+                <!-- 좌측 메인 패널 (65%) -->
+                <div class="main-panel">
+                    <!-- 진행 단계 표시 -->
+                    <div class="progress-indicator">
+                        <div class="progress-step" :class="{ 'active': currentStep >= 1, 'completed': currentStep > 1 }">
+                            <div class="step-circle">1</div>
+                            <span class="step-label">업종 선택</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="progress-step" :class="{ 'active': currentStep >= 2, 'completed': currentStep > 2 }">
+                            <div class="step-circle">2</div>
+                            <span class="step-label">플랫폼 선택</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="progress-step" :class="{ 'active': currentStep >= 3, 'completed': currentStep > 3 }">
+                            <div class="step-circle">3</div>
+                            <span class="step-label">상품 선택</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: 업종 선택 -->
+                    <section class="section-container" x-show="currentStep === 1" x-transition>
+                        <div class="section-header">
+                            <h2 class="section-title">어떤 업종이신가요?</h2>
+                            <p class="section-subtitle">업종에 따라 최적화된 마케팅 전략을 제공합니다</p>
+                        </div>
+                        
+                        <div class="platform-grid">
+                            <div class="platform-card" 
+                                 :class="{ 'selected': businessType === 'general' }"
+                                 @click="selectBusinessType('general')">
+                                <div class="platform-icon">
+                                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="8" y="10" width="32" height="30" rx="2" stroke="currentColor" stroke-width="3"/>
+                                        <path d="M8 20H40" stroke="currentColor" stroke-width="3"/>
+                                        <path d="M20 10V40" stroke="currentColor" stroke-width="3"/>
+                                    </svg>
+                                </div>
+                                <h3 class="platform-name">일반업종</h3>
+                                <p style="font-size: 0.875rem; color: var(--gray-600); margin-top: 0.5rem;">병원, 학원, 미용실 등</p>
+                            </div>
+                            
+                            <div class="platform-card" 
+                                 :class="{ 'selected': businessType === 'restaurant' }"
+                                 @click="selectBusinessType('restaurant')">
+                                <div class="platform-icon">
+                                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M24 8V40" stroke="currentColor" stroke-width="3"/>
+                                        <path d="M12 8V20C12 20 12 24 16 24C20 24 20 20 20 20V8" stroke="currentColor" stroke-width="3"/>
+                                        <path d="M28 8V16L36 8V40" stroke="currentColor" stroke-width="3"/>
+                                    </svg>
+                                </div>
+                                <h3 class="platform-name">맛집업종</h3>
+                                <p style="font-size: 0.875rem; color: var(--gray-600); margin-top: 0.5rem;">음식점, 카페, 베이커리 등</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+                            <button class="btn btn-primary btn-lg" @click="nextStep()" :disabled="!businessType">
+                                다음 단계
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- Step 2: 플랫폼 선택 -->
+                    <section class="section-container" x-show="currentStep === 2" x-transition>
+                        <div class="section-header">
+                            <h2 class="section-title">마케팅 채널을 선택하세요</h2>
+                            <p class="section-subtitle">복수 선택 가능합니다</p>
+                        </div>
+                        
+                        <div class="platform-grid">
+                            <div class="platform-card" 
+                                 data-platform="naver"
+                                 :class="{ 'selected': selectedPlatforms.includes('naver_place') }"
+                                 @click="togglePlatform('naver_place')">
+                                <div class="platform-icon">
+                                    <svg viewBox="0 0 48 48" fill="#03C75A">
+                                        <path d="M29.58 24L18 8h-8v32h8V24l11.58 16H38V8h-8.42v16z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="platform-name">네이버 플레이스</h3>
+                            </div>
+                            
+                            <div class="platform-card" 
+                                 data-platform="blog"
+                                 :class="{ 'selected': selectedPlatforms.includes('blog') }"
+                                 @click="togglePlatform('blog')">
+                                <div class="platform-icon">
+                                    <svg viewBox="0 0 48 48" fill="currentColor">
+                                        <rect x="8" y="10" width="32" height="4" rx="2"/>
+                                        <rect x="8" y="22" width="32" height="4" rx="2"/>
+                                        <rect x="8" y="34" width="24" height="4" rx="2"/>
+                                    </svg>
+                                </div>
+                                <h3 class="platform-name">네이버 블로그</h3>
+                            </div>
+                            
+                            <div class="platform-card" 
+                                 data-platform="instagram"
+                                 :class="{ 'selected': selectedPlatforms.includes('instagram') }"
+                                 @click="togglePlatform('instagram')">
+                                <div class="platform-icon">
+                                    <svg viewBox="0 0 48 48" fill="#E4405F">
+                                        <rect x="8" y="8" width="32" height="32" rx="8" stroke="currentColor" stroke-width="3" fill="none"/>
+                                        <circle cx="24" cy="24" r="7" stroke="currentColor" stroke-width="3" fill="none"/>
+                                        <circle cx="34" cy="14" r="2" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                <h3 class="platform-name">인스타그램</h3>
+                            </div>
+                            
+                            <div class="platform-card" 
+                                 data-platform="youtube"
+                                 :class="{ 'selected': selectedPlatforms.includes('youtube') }"
+                                 @click="togglePlatform('youtube')">
+                                <div class="platform-icon">
+                                    <svg viewBox="0 0 48 48" fill="#FF0000">
+                                        <rect x="6" y="12" width="36" height="24" rx="4" stroke="currentColor" stroke-width="3" fill="none"/>
+                                        <path d="M20 20v8l7-4-7-4z" fill="currentColor"/>
+                                    </svg>
+                                </div>
+                                <h3 class="platform-name">유튜브</h3>
+                            </div>
+                        </div>
+                        
+                        <!-- 키워드 입력 -->
+                        <div class="keyword-section">
+                            <div class="keyword-input-group">
+                                <label class="input-label">메인 키워드 *</label>
+                                <input type="text" class="input-field" 
+                                       placeholder="예: 강남피부과, 분당맛집"
+                                       x-model="mainKeyword" maxlength="30">
+                                <p style="font-size: 0.875rem; color: var(--gray-600); margin-top: 0.5rem;">
+                                    검색 시 가장 중요한 키워드를 입력하세요
+                                </p>
+                            </div>
+                            
+                            <div class="keyword-input-group">
+                                <label class="input-label">서브 키워드 (선택)</label>
+                                <input type="text" class="input-field" 
+                                       placeholder="추가할 키워드 입력 후 엔터"
+                                       @keydown.enter.prevent="addSubKeyword($event)"
+                                       x-show="subKeywords.length < 5">
+                                <div class="keyword-tags">
+                                    <template x-for="(keyword, index) in subKeywords" :key="index">
+                                        <span class="keyword-tag">
+                                            <span x-text="keyword"></span>
+                                            <button @click="removeSubKeyword(index)">&times;</button>
+                                        </span>
+                                    </template>
+                                </div>
+                                <p style="font-size: 0.875rem; color: var(--gray-600); margin-top: 0.5rem;">
+                                    최대 5개까지 입력 가능 (현재 <span x-text="subKeywords.length"></span>개)
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+                            <button class="btn btn-secondary btn-lg" @click="previousStep()">
+                                이전 단계
+                            </button>
+                            <button class="btn btn-primary btn-lg" @click="nextStep()" 
+                                    :disabled="selectedPlatforms.length === 0 || !mainKeyword">
+                                다음 단계
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- Step 3: 상품 선택 -->
+                    <section class="section-container" x-show="currentStep === 3" x-transition>
+                        <div class="section-header">
+                            <h2 class="section-title">상품을 선택하세요</h2>
+                            <p class="section-subtitle">
+                                <span x-show="businessType === 'general'">플레이스 기본 패키지 (10일 기준)</span>
+                                <span x-show="businessType === 'restaurant'">요식업 사장님을 위한 특별 프로모션</span>
+                            </p>
+                        </div>
+                        
+                        <!-- 일반업종 상품 -->
+                        <div x-show="businessType === 'general'">
+                            <div class="product-grid">
+                                <div class="product-card" :class="{ 'selected': selectedProducts.find(p => p.id === 'test') }">
+                                    <h3 class="product-title">반영테스트</h3>
+                                    <div class="product-price">80,000원</div>
+                                    <ul class="product-features">
+                                        <li>트래픽 1일 100건</li>
+                                        <li>순위반영 테스트</li>
+                                        <li>기본 분석 리포트</li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-block" @click="toggleProduct('test', 80000)">
+                                        <span x-show="!selectedProducts.find(p => p.id === 'test')">선택하기</span>
+                                        <span x-show="selectedProducts.find(p => p.id === 'test')">선택 해제</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="product-card featured" :class="{ 'selected': selectedProducts.find(p => p.id === 'standard') }">
+                                    <div class="product-badge">인기</div>
+                                    <h3 class="product-title">본격적 순위 상승</h3>
+                                    <div class="product-price">180,000원</div>
+                                    <ul class="product-features">
+                                        <li>트래픽 1일 100건</li>
+                                        <li>블로그리뷰 일 2건</li>
+                                        <li>상세 분석 리포트</li>
+                                        <li>1:1 컨설팅 포함</li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-block" @click="toggleProduct('standard', 180000)">
+                                        <span x-show="!selectedProducts.find(p => p.id === 'standard')">선택하기</span>
+                                        <span x-show="selectedProducts.find(p => p.id === 'standard')">선택 해제</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="product-card" :class="{ 'selected': selectedProducts.find(p => p.id === 'premium') }">
+                                    <h3 class="product-title">경쟁구간</h3>
+                                    <div class="product-price">250,000원</div>
+                                    <ul class="product-features">
+                                        <li>트래픽 1일 200건</li>
+                                        <li>블로그리뷰 일 3건</li>
+                                        <li>프리미엄 분석</li>
+                                        <li>전담 매니저</li>
+                                    </ul>
+                                    <button class="btn btn-primary btn-block" @click="toggleProduct('premium', 250000)">
+                                        <span x-show="!selectedProducts.find(p => p.id === 'premium')">선택하기</span>
+                                        <span x-show="selectedProducts.find(p => p.id === 'premium')">선택 해제</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 맛집업종 상품 (추후 구현) -->
+                        <div x-show="businessType === 'restaurant'">
+                            <!-- 맛집업종 전용 UI -->
+                        </div>
+                        
+                        <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+                            <button class="btn btn-secondary btn-lg" @click="previousStep()">
+                                이전 단계
+                            </button>
+                            <button class="btn btn-primary btn-lg" @click="proceedToOrder()" 
+                                    :disabled="selectedProducts.length === 0">
+                                주문서 작성하기
+                            </button>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- 우측 정보 패널 (35%) -->
+                <aside class="info-panel">
+                    <!-- 선택 내역 요약 -->
+                    <div class="info-card summary-card" x-show="currentStep > 1">
+                        <h3 class="info-card-title">선택 내역</h3>
+                        
+                        <div class="summary-item" x-show="businessType">
+                            <div class="summary-label">업종</div>
+                            <div class="summary-value" x-text="businessType === 'general' ? '일반업종' : '맛집업종'"></div>
+                        </div>
+                        
+                        <div class="summary-item" x-show="selectedPlatforms.length > 0">
+                            <div class="summary-label">플랫폼</div>
+                            <div class="keyword-tags">
+                                <template x-for="platform in selectedPlatforms">
+                                    <span class="keyword-tag" x-text="getPlatformName(platform)"></span>
+                                </template>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-item" x-show="mainKeyword">
+                            <div class="summary-label">메인 키워드</div>
+                            <div class="summary-value" x-text="mainKeyword"></div>
+                        </div>
+                        
+                        <div class="summary-item" x-show="subKeywords.length > 0">
+                            <div class="summary-label">서브 키워드</div>
+                            <div class="keyword-tags">
+                                <template x-for="keyword in subKeywords">
+                                    <span class="keyword-tag" x-text="keyword"></span>
+                                </template>
+                            </div>
+                        </div>
+                        
+                        <div class="summary-total" x-show="totalPrice > 0">
+                            <span class="total-label">총 금액</span>
+                            <span class="total-amount" x-text="formatPrice(totalPrice)"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- 빠른 상담 -->
+                    <div class="info-card">
+                        <h3 class="info-card-title">빠른 상담</h3>
+                        <p class="text-center mb-3" style="color: var(--gray-600);">
+                            카카오톡으로 실시간 상담이 가능합니다
+                        </p>
+                        <button class="btn btn-primary btn-block" @click="openKakaoChat()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 3c5.51 0 10 3.492 10 7.8 0 4.308-4.49 7.8-10 7.8-1.123 0-2.204-.145-3.213-.413l-3.787 2.361v-3.161C2.581 15.576 1 13.264 1 10.8 1 6.492 5.49 3 12 3z"/>
+                            </svg>
+                            카카오톡 상담
+                        </button>
+                        <p class="text-center mt-2" style="font-size: 0.875rem; color: var(--gray-600);">
+                            평일 09:00 ~ 18:00
+                        </p>
+                    </div>
+                    
+                    <!-- 이용 가이드 -->
+                    <div class="info-card">
+                        <h3 class="info-card-title">자주 묻는 질문</h3>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                            <details style="border: 1px solid var(--gray-200); border-radius: 8px; padding: 1rem;">
+                                <summary style="font-weight: 600; cursor: pointer;">업종 선택이 중요한가요?</summary>
+                                <p style="margin-top: 0.5rem; color: var(--gray-600); font-size: 0.875rem;">
+                                    네, 업종별로 최적화된 마케팅 전략이 다르기 때문에 정확한 업종 선택이 중요합니다.
+                                </p>
+                            </details>
+                            <details style="border: 1px solid var(--gray-200); border-radius: 8px; padding: 1rem;">
+                                <summary style="font-weight: 600; cursor: pointer;">상품 변경이 가능한가요?</summary>
+                                <p style="margin-top: 0.5rem; color: var(--gray-600); font-size: 0.875rem;">
+                                    주문 완료 후 24시간 이내에는 변경 가능합니다. 고객센터로 문의해주세요.
+                                </p>
+                            </details>
+                            <details style="border: 1px solid var(--gray-200); border-radius: 8px; padding: 1rem;">
+                                <summary style="font-weight: 600; cursor: pointer;">환불 정책은 어떻게 되나요?</summary>
+                                <p style="margin-top: 0.5rem; color: var(--gray-600); font-size: 0.875rem;">
+                                    서비스 시작 전 100% 환불, 시작 후 7일 이내 잔여기간 비율 환불이 가능합니다.
+                                </p>
+                            </details>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <!-- 플로팅 카카오톡 버튼 -->
+    <button class="floating-kakao" @click="openKakaoChat()" title="카카오톡 상담">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3c5.51 0 10 3.492 10 7.8 0 4.308-4.49 7.8-10 7.8-1.123 0-2.204-.145-3.213-.413l-3.787 2.361v-3.161C2.581 15.576 1 13.264 1 10.8 1 6.492 5.49 3 12 3z"/>
+        </svg>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        function productApp() {
+            return {
+                currentStep: 1,
+                businessType: '',
+                selectedPlatforms: [],
+                mainKeyword: '',
+                subKeywords: [],
+                selectedProducts: [],
+                selectedOptions: [],
+                totalPrice: 0,
+                
+                // 업종 선택
+                selectBusinessType(type) {
+                    this.businessType = type;
+                },
+                
+                // 플랫폼 토글
+                togglePlatform(platform) {
+                    const index = this.selectedPlatforms.indexOf(platform);
+                    if (index > -1) {
+                        this.selectedPlatforms.splice(index, 1);
+                    } else {
+                        this.selectedPlatforms.push(platform);
+                    }
+                },
+                
+                // 서브 키워드 추가
+                addSubKeyword(event) {
+                    const value = event.target.value.trim();
+                    if (value && this.subKeywords.length < 5) {
+                        this.subKeywords.push(value);
+                        event.target.value = '';
+                    }
+                },
+                
+                // 서브 키워드 제거
+                removeSubKeyword(index) {
+                    this.subKeywords.splice(index, 1);
+                },
+                
+                // 상품 토글
+                toggleProduct(id, price) {
+                    const index = this.selectedProducts.findIndex(p => p.id === id);
+                    if (index > -1) {
+                        this.selectedProducts.splice(index, 1);
+                    } else {
+                        this.selectedProducts.push({ id, price });
+                    }
+                    this.calculateTotal();
+                },
+                
+                // 총액 계산
+                calculateTotal() {
+                    this.totalPrice = this.selectedProducts.reduce((sum, product) => sum + product.price, 0);
+                },
+                
+                // 다음 단계
+                nextStep() {
+                    if (this.currentStep < 3) {
+                        this.currentStep++;
+                    }
+                },
+                
+                // 이전 단계
+                previousStep() {
+                    if (this.currentStep > 1) {
+                        this.currentStep--;
+                    }
+                },
+                
+                // 플랫폼 이름 가져오기
+                getPlatformName(platform) {
+                    const names = {
+                        'naver_place': '네이버 플레이스',
+                        'blog': '네이버 블로그',
+                        'instagram': '인스타그램',
+                        'youtube': '유튜브'
+                    };
+                    return names[platform] || platform;
+                },
+                
+                // 가격 포맷
+                formatPrice(price) {
+                    return price.toLocaleString() + '원';
+                },
+                
+                // 카카오톡 상담
+                openKakaoChat() {
+                    window.open('https://pf.kakao.com/_xLxmxkK', '_blank');
+                },
+                
+                // 주문서 작성
+                proceedToOrder() {
+                    // 주문서 페이지로 이동
+                    console.log('주문 정보:', {
+                        businessType: this.businessType,
+                        platforms: this.selectedPlatforms,
+                        mainKeyword: this.mainKeyword,
+                        subKeywords: this.subKeywords,
+                        products: this.selectedProducts,
+                        totalPrice: this.totalPrice
+                    });
+                    // window.location.href = 'order.html';
+                }
+            };
+        }
+    </script>
+</body>
+</html>
